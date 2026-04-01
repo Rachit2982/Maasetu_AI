@@ -1,0 +1,5 @@
+{
+  "name": "MaaSetu - Maternal Health AI",
+  "description": "AI-powered maternal health monitoring system with WhatsApp triage and real-time doctor alerts.",
+  "requestFramePermissions": []
+}

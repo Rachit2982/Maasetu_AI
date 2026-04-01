@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "Patient": {
+      "title": "Patient",
+      "description": "Maternal health patient record",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "age": { "type": "integer" },
+        "month": { "type": "integer" },
+        "patientPhone": { "type": "string" },
+        "husbandPhone": { "type": "string" },
+        "emergencyContactName": { "type": "string" },
+        "emergencyContactPhone": { "type": "string" },
+        "hospitalId": { "type": "string" },
+        "hospitalName": { "type": "string" },
+        "bandId": { "type": "string" },
+        "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "history": {
+          "type": "object",
+          "properties": {
+            "diabetes": { "type": "boolean" },
+            "bp": { "type": "boolean" },
+            "previousPregnancy": { "type": "boolean" },
+            "abortions": { "type": "integer" }
+          }
+        },
+        "expectedDelivery": { "type": "string", "format": "date" },
+        "lastBandData": {
+          "type": "object",
+          "properties": {
+            "heartRate": { "type": "number" },
+            "temperature": { "type": "number" },
+            "faintDetected": { "type": "boolean" },
+            "timestamp": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "required": ["name", "age", "month", "patientPhone", "husbandPhone", "emergencyContactName", "emergencyContactPhone", "hospitalId", "hospitalName", "bandId", "risk"]
+    },
+    "Alert": {
+      "title": "Alert",
+      "description": "Real-time health alert for doctors",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "patientName": { "type": "string" },
+        "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "summary": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "handled": { "type": "boolean" }
+      },
+      "required": ["patientId", "patientName", "risk", "summary", "timestamp", "handled"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "WhatsApp message log",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "text": { "type": "string" },
+        "sender": { "type": "string", "enum": ["patient", "system"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "text", "sender", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/patients/{patientId}": {
+      "schema": "Patient",
+      "description": "Patient records"
+    },
+    "/alerts/{alertId}": {
+      "schema": "Alert",
+      "description": "Real-time alerts for the hospital"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Message history"
+    }
+  }
+}
